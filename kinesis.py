@@ -111,7 +111,7 @@ def get_aws_kinesis_client():
         'kinesis',
         aws_access_key_id=os.environ['AWS_SERVER_PUBLIC_KEY'],
         aws_secret_access_key=os.environ['AWS_SERVER_SECRET_KEY'],
-        region_name='us-east-1'
+        region_name=os.environ['AWS_DEFAULT_REGION']
     )
 
     return session
@@ -119,7 +119,7 @@ def get_aws_kinesis_client():
 
 kinesis_client = get_aws_kinesis_client()
 stream = KinesisStream(kinesis_client)
-# stream.create("demo_data_stream")
+stream.create("demo_data_stream")
 details = stream.describe(name='demo_data_stream')
 response = stream.put_record(data={"test1":"testVal2", "c":"d"}, partition_key='123456')
 records = stream.get_records(max_records=10, date_after=datetime.datetime(2023, 6, 19))
